@@ -4,16 +4,28 @@ import Hero from "./hero.js"
 import Question from "./question";
 import api from "./api";
 import { nanoid } from "nanoid";
+
+
+/// сделать новый обьект апи
+//мап овер ит бейсикли перенеси в обьект стейт. 
+//и юз эффект который будет выполняться при измении обьекта
 export default function Home() {
   
 
   const [displayQuestions, setdisplayQuestions] = useState(false)
   const [questions, setQuestions] = useState([{}])
-  const [userChoises, setUserChoises] = useState([])
-
+  const [triviaObject, setTriviaObject] = useState([{}])
+  
   function showQ(){
     setdisplayQuestions(true)
+    setTriviaObject((prevTrivia)=>{
+      return prevTrivia.map((question)=>{
+
+      })
+    })
+
     
+
   }
 
   function checkAnswer(event, bool){
@@ -44,7 +56,7 @@ export default function Home() {
               question={question.question}
               answers={answers}
               checkAnswer={checkAnswer}
-            
+              checkAll={false}
           />
         })
       })
