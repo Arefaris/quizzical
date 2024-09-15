@@ -116,6 +116,10 @@ main {
   margin: 0;
 }
 
+.selected {
+  background-color: #D6DBF5;
+}
+
 hr {
   margin-top: 15px;
   width: 100%;

@@ -1,17 +1,23 @@
 import he from "he"
 import { nanoid } from "nanoid";
+import { useState } from "react";
+
 export default function Question(props){
+    
     let answers = []
  
-    
-    
-    for (let inc of props.incorrectAnswers){
-        answers.push(<button key={nanoid()} onClick={(event)=>{props.checkAnswer(event,false)}} className="answer">{he.decode(inc)}</button>)
-    }
-    
-    answers.push(<button key={nanoid()} onClick={(event)=>{props.checkAnswer(event, true)}} className="correct-answer">{he.decode(props.correctAnswer)}</button>)
-    
+    const [isSelected, setIsSelected] = useState(null);
 
+    function handleClick(event, index, answer){
+        setIsSelected(index)
+        props.checkAnswer(event, answer)
+    }
+
+    for (let i=0; i < props.answers.length; i++){
+        let inc = props.answers[i]
+        answers.push(<button key={nanoid()} onClick={(event)=>{handleClick(event, i, inc.correct)}} className={isSelected === i ? "selected answer" : "answer"}>{he.decode(inc.answer)}</button>)
+    }
+      
     return <>
         <div className="table">
           <h1 className="question">{he.decode(props.question)}</h1>
@@ -21,20 +27,7 @@ export default function Question(props){
            <hr className="solid"></hr>
        </div>
     </>
+
 }
 
-function shuffle(array) {
-    let currentIndex = array.length;
-  
-    // While there remain elements to shuffle...
-    while (currentIndex != 0) {
-  
-      // Pick a remaining element...
-      let randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
-  
-      // And swap it with the current element.
-      [array[currentIndex], array[randomIndex]] = [
-        array[randomIndex], array[currentIndex]];
-    }
-  }
+
