@@ -25,8 +25,7 @@ export default function Question(props){
         
         if (props.checkAll){
             normalStyles = {
-                borderColor: "#dad7cd",
-                color: "#dad7cd"
+                opacity: 0.5
             }
 
         }
@@ -44,7 +43,9 @@ export default function Question(props){
             
         }else if (props.checkAll && isSelected === i) {
             selectedStyle = {
-                backgroundColor: "#F8BCBC"
+                backgroundColor: "#F8BCBC",
+                border: "none",
+                opacity: 0.5
             }
         }
 

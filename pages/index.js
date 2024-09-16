@@ -13,6 +13,7 @@ export default function Home() {
   const [triviaObject, setTriviaObject] = useState([{}])
   const [newGame, setNewGame] = useState(false)
   const [startGame, setStartGame] = useState(false)
+  const [correctAnswers, setCorrectAnswers] = useState(0)
 
   function showQ(){
     setdisplayQuestions(true)
@@ -25,16 +26,24 @@ export default function Home() {
         return {...question, checkAll: true}
       })
     })
-
     setNewGame(true)
-    
   }
+
+  function startNewGame(){
+    setNewGame(false) 
+    setStartGame(prev=> !prev) 
+}
 
   function checkAnswer(event, bool){
     
     if(bool){
-      
+      setCorrectAnswers((prev)=>{
+        let count = prev
+        count++
+        return count
+      })
     }
+
   }
 
   useEffect(()=>{
@@ -53,9 +62,9 @@ export default function Home() {
 }, [triviaObject])
   
 
-  useEffect(()=>{
+  function setTrivia(apiData){
     setTriviaObject((prevTrivia)=>{
-      return api.results.map((question)=>{
+      return apiData.map((question)=>{
 
         let answers = question.incorrect_answers.map((answer)=>{
           return {"answer": answer, "correct": false}
@@ -74,8 +83,19 @@ export default function Home() {
         }
       })
     })
+  }
+
+  useEffect(()=>{
+
+    fetch("https://opentdb.com/api.php?amount=5")
+            .then(res => res.json())
+            .then(data => setTrivia(data.results))
+            
     
-    console.log("you a here")
+
+   
+    
+   
   }, [startGame])
 
   function shuffle(array) {
@@ -107,8 +127,12 @@ export default function Home() {
         />}
 
       {displayQuestions && questions}
-       {displayQuestions && <button onClick={(event)=> {newGame ? setNewGame(false) && setStartGame(true) : revQuestions()}} className="confirm-btn">{newGame ? "Play again": "Check answers"}</button>}
-       
+      <div className="buttons">
+        {displayQuestions && newGame && <h1 className="correct-answers">You scored {correctAnswers}/5 correct answers</h1>}
+        {displayQuestions && <button onClick={(event)=> {newGame ? startNewGame(): revQuestions()
+
+          }} className="confirm-btn">{newGame ? "Play again": "Check answers"}</button>}
+       </div>
       </main>
     </>
   );

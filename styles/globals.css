@@ -123,7 +123,7 @@ hr {
 }
 
 .confirm-btn {
-  margin-top: 20px;
+
   align-self: center;
   width: 120px;
   height: 35px;
@@ -137,4 +137,20 @@ hr {
   line-height: 12px;
   text-align: center;
   color: #F5F7FB;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.correct-answers {
+
+    font-weight: 700;
+    font-size: 12.8px;
+    line-height: 15px;
+    text-align: center;
+    color: #293264;
 }
