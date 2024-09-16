@@ -101,7 +101,7 @@ main {
 }
 
 .answer, .correct-answer {
-  border: 0.794239px solid #4D5B9E;
+  border: 0.8px solid #4D5B9E;
   border-radius: 7.94239px;
   font-family: 'Inter';
   font-style: normal;
@@ -114,10 +114,6 @@ main {
   color: #293264;
   padding: 5px 10px 5px 10px;
   margin: 0;
-}
-
-.selected {
-  background-color: #D6DBF5;
 }
 
 hr {

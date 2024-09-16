@@ -5,63 +5,78 @@ import Question from "./question";
 import api from "./api";
 import { nanoid } from "nanoid";
 
-
-/// сделать новый обьект апи
-//мап овер ит бейсикли перенеси в обьект стейт. 
-//и юз эффект который будет выполняться при измении обьекта
 export default function Home() {
   
 
   const [displayQuestions, setdisplayQuestions] = useState(false)
   const [questions, setQuestions] = useState([{}])
   const [triviaObject, setTriviaObject] = useState([{}])
-  
+  const [newGame, setNewGame] = useState(false)
+  const [startGame, setStartGame] = useState(false)
+
   function showQ(){
     setdisplayQuestions(true)
+}
+
+  function revQuestions(){
     setTriviaObject((prevTrivia)=>{
       return prevTrivia.map((question)=>{
-
+        
+        return {...question, checkAll: true}
       })
     })
 
+    setNewGame(true)
     
-
   }
 
   function checkAnswer(event, bool){
-    //each choise should be saved
-    //is choise true or false, if true, paint green, if false pait read
+    
     if(bool){
       
     }
   }
-  
+
   useEffect(()=>{
-
-    /// req to api getting object mapping over it
-
-
-      setQuestions((prevQuestions)=>{
-        return api.results.map((question)=>{
-          let answers = question.incorrect_answers.map((answer)=>{
-            return {"answer": answer, "correct": false}
-          })
-
-          let correctAnswer = {"answer": question.correct_answer, "correct": true}
-          answers.push(correctAnswer)
-          shuffle(answers)
-
-          return <Question
-              key={nanoid()}
-              question={question.question}
-              answers={answers}
-              checkAnswer={checkAnswer}
-              checkAll={false}
-          />
-        })
+    setQuestions((prevQuestions)=>{
+      return triviaObject.map((question)=>{
+       
+        return <Question
+            key={question.key}
+            question={question.question}
+            answers={question.answers}
+            checkAnswer={checkAnswer}
+            checkAll={question.checkAll}
+        />
       })
-  }, [displayQuestions])
+    })
+}, [triviaObject])
+  
 
+  useEffect(()=>{
+    setTriviaObject((prevTrivia)=>{
+      return api.results.map((question)=>{
+
+        let answers = question.incorrect_answers.map((answer)=>{
+          return {"answer": answer, "correct": false}
+        })
+
+        let correctAnswer = {"answer": question.correct_answer, "correct": true}
+        answers.push(correctAnswer)
+        shuffle(answers)
+
+
+        return {
+          "key":nanoid(),
+          "question":question.question,
+          "answers":answers,
+          "checkAll":false
+        }
+      })
+    })
+    
+    console.log("you a here")
+  }, [startGame])
 
   function shuffle(array) {
 
@@ -92,7 +107,7 @@ export default function Home() {
         />}
 
       {displayQuestions && questions}
-       {displayQuestions && <button className="confirm-btn">Check answers</button>}
+       {displayQuestions && <button onClick={(event)=> {newGame ? setNewGame(false) && setStartGame(true) : revQuestions()}} className="confirm-btn">{newGame ? "Play again": "Check answers"}</button>}
        
       </main>
     </>
