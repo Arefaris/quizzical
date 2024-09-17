@@ -2,7 +2,6 @@ import Blobs from "./blobs";
 import React, {useEffect, useState} from "react";
 import Hero from "./hero.js"
 import Question from "./question";
-import api from "./api";
 import { nanoid } from "nanoid";
 
 export default function Home() {
@@ -30,6 +29,7 @@ export default function Home() {
   }
 
   function startNewGame(){
+    setCorrectAnswers(0)
     setNewGame(false) 
     setStartGame(prev=> !prev) 
 }
@@ -87,16 +87,12 @@ export default function Home() {
 
   useEffect(()=>{
 
-    fetch("https://opentdb.com/api.php?amount=5")
+      fetch("https://opentdb.com/api.php?amount=5")
             .then(res => res.json())
             .then(data => setTrivia(data.results))
-            
-    
-
-   
-    
-   
-  }, [startGame])
+  
+         
+    }, [startGame])
 
   function shuffle(array) {
 
