@@ -3,7 +3,7 @@ import { nanoid } from "nanoid";
 import { useState } from "react";
 
 export default function Question(props){
-    
+
     let normalStyles
 
     let answers = []
@@ -15,7 +15,7 @@ export default function Question(props){
         props.checkAnswer(event, answer)
         }
 
-    for (let i=0; i < props.answers.length; i++){
+    for (let i=0; i < props.answers?.length; i++){
 
         let inc = props.answers[i]
 
@@ -53,12 +53,12 @@ export default function Question(props){
                             onClick={(event)=>{!props.checkAll && handleClick(event, i, inc.correct)}} 
                             className={"answer"}
                             style={isSelected === i ? selectedStyle: normalStyles}>
-                    {he.decode(inc.answer)}</button>)
+                    {inc?.answer && he.decode(inc.answer)}</button>)
     }
       
     return <>
         <div className="table">
-          <h1 className="question">{he.decode(props.question)}</h1>
+          <h1 className="question">{props?.question && he.decode(props.question)}</h1>
           <div className="answers">
                 {answers}
            </div>
